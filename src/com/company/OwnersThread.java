@@ -16,8 +16,10 @@ public class OwnersThread extends Thread {
 
         System.out.println("Total owners: " + ownerAmount);
 
-        while (count < ownerAmount) {
+        while (count < ownerAmount)
+        {
             Owner owner = new Owner();
+            System.out.println("\nOwner adding");
 
             for (int i = 0; i < owner.itemsSize(); i++) {
                 house.add(owner.getItem(i));

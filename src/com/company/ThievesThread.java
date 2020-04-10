@@ -18,16 +18,14 @@ public class ThievesThread extends Thread {
         System.out.println("Total thieves: " + thievesAmount);
 
         //notify();
-        while (count < thievesAmount) {
+        while (count < thievesAmount)
+        {
             Thief thief = new Thief();
-
             System.out.println("\nThief stealing");
 
             house.sort(Comparator.comparingDouble(Item::getValue));
 
-
             for (int i = 0; thief.getBagCurrentWeight() <= thief.getBagTotalWeight() ; i++) {
-
 
                 if (i < house.size())
                 {
@@ -35,8 +33,6 @@ public class ThievesThread extends Thread {
                     thief.stealItem(itemToSteal);
                     house.remove(itemToSteal);
                 }
-
-
             }
 
             thief.showStealProfit();
