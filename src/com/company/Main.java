@@ -53,10 +53,18 @@ public class Main {
 
     public static void main(String[] args) {
 
-        List<Item> house = Collections.synchronizedList(new ArrayList<>());
 
+
+        House house = new House();
         new OwnersThread(house).start();
         new ThievesThread(house).start();
+
+
+
+        //List<Item> house = Collections.synchronizedList(new ArrayList<>());
+
+
+
 
        /* synchronized (house) {
             new OwnersThread(house).start();

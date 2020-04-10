@@ -27,6 +27,10 @@ public class Owner /*extends Thread*/ {
         });
     }
 
+    public List<Item> getAllItems() {
+        return this.items;
+    }
+
     public int itemsSize() {
         return this.items.size();
     }
