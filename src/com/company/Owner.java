@@ -3,7 +3,7 @@ package com.company;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Owner /*extends Thread*/ {
+public class Owner {
     /* Хозяин; атрибуты: Вещи; действия: внести вещи в квартиру*/
     List<Item> items = new ArrayList<>();
 

@@ -15,9 +15,6 @@ public class Thief extends Thread{
     public void stealItem(Item item) {
         this.bag.addItemToBag(item);
         showStealProfit();
-        //if (this.bag.getBagWeight() + item.getWeight() <= this.bag.getTotalWeight()) {
-            //this.bag.addItemToBag(item);
-        //}
     }
 
     public double getBagTotalWeight() {
@@ -30,7 +27,6 @@ public class Thief extends Thread{
 
     public double getBagTotalValue() {
         return this.bag.getBagValue();
-
     }
 
     public void showStealProfit() {

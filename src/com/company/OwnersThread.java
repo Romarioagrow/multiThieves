@@ -16,7 +16,6 @@ public class OwnersThread extends Thread {
         }
     }
 
-
     @Override
     public void run() {
         System.out.println("Total owners: " + owners.size());
@@ -31,29 +30,7 @@ public class OwnersThread extends Thread {
                 e.printStackTrace();
             }
         }
-
-
-
-
-        /*int ownerAmount = (int) (Math.random() * 10000 + 1);
-        int count = 0;
-
-        System.out.println("Total owners: " + ownerAmount);
-
-        while (count < ownerAmount) {
-            Owner owner = new Owner();
-
-            for (int i = 0; i < owner.itemsSize(); i++) {
-                house.add(owner.getItem(i));
-            }
-
-            System.out.println("Items in house after add: " + house.size());
-            count++;
-        }*/
     }
-
-
-
 
     private int getRandomOwnersAmount() {
         return (int) (Math.random() * 1000 + 1);

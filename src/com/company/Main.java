@@ -46,42 +46,17 @@ public class Main {
 Программа работает пока все потоки не завершатся
 */
 
-    /*public int getRandomAmount() {
-        return (int) (Math.random() * 10000 + 1);
-    }*/
-    //static List<Item> house = Collections.synchronizedList(new ArrayList<>());
-
     public static void main(String[] args) {
-
-
-
         House house = new House();
         new OwnersThread(house).start();
         new ThievesThread(house).start();
 
-
-
-        //List<Item> house = Collections.synchronizedList(new ArrayList<>());
-
-
-
-
-       /* synchronized (house) {
+       /*
+       List<Item> house = Collections.synchronizedList(new ArrayList<>());
+       synchronized (house) {
             new OwnersThread(house).start();
             new ThievesThread(house).start();
-        }*/
-    }
-
-
-    public static synchronized void doThings() {
-        /*List<Item> house = Collections.synchronizedList(new ArrayList<>());
-
-        //List<Integer> syncList = Collections.synchronizedList(new ArrayList<>());
-        OwnersThread owners = new OwnersThread(house);
-        //owners.run();
-        new Thread()*/
-
-        /*Owner owner = new Owner();
-        owner.start();*/
+        }
+        */
     }
 }
