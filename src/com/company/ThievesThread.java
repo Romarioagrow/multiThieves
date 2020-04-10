@@ -29,10 +29,13 @@ public class ThievesThread extends Thread {
             for (int i = 0; thief.getBagCurrentWeight() <= thief.getBagTotalWeight() ; i++) {
 
 
-                Item itemToSteal = house.get(i);
+                if (i < house.size())
+                {
+                    Item itemToSteal = house.get(i);
+                    thief.stealItem(itemToSteal);
+                    house.remove(itemToSteal);
+                }
 
-                thief.stealItem(itemToSteal);
-                house.remove(itemToSteal);
 
             }
 
