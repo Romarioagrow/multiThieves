@@ -2,9 +2,10 @@ package app;
 
 import lombok.ToString;
 
+/*Вещь; атрибуты: вес, ценность*/
+
 @ToString
 public class Item {
-    /// Вещь; атрибуты: вес, ценность
     public double value, weight;
 
     public Item() {

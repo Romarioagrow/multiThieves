@@ -50,15 +50,6 @@ public class House {
                     System.out.println("Owner added all item, total in house: " + itemsInHouse.size());
                     System.out.println("Owner leave");
                     System.out.println("ownersInHouse: " + ownersInHouse.size());
-
-                    /*try
-                    {
-                        Thread.sleep(1500);
-                    }
-                    catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }*/
-
                 });
             }
         }

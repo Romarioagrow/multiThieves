@@ -9,15 +9,17 @@ import java.util.List;
 @Data
 @ToString
 public class Owner {
-    /* Хозяин; атрибуты: Вещи; действия: внести вещи в квартиру*/
     List<Item> items = new ArrayList<>();
 
-    /*Add random owner Items*/
     public Owner() {
         int itemsAmount = (int) (Math.random() * 10 + 1);
         for (int i = 0; i < itemsAmount; i++) {
             this.items.add(new Item());
         }
+    }
+
+    public List<Item> getAllItems() {
+        return this.items;
     }
 
     public static void addItem(Item item) {
@@ -30,10 +32,6 @@ public class Owner {
             System.out.println("\nOwner`s item value: " + item.getValue());
             System.out.println("Owner`s item weight: " + item.getWeight());
         });
-    }
-
-    public List<Item> getAllItems() {
-        return this.items;
     }
 
     public int itemsSize() {

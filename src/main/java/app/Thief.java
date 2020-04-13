@@ -2,7 +2,7 @@ package app;
 
 import java.util.List;
 
-/// Вор; атрибуты: рюкзак. Действия: сложить вещи в рюкзак.
+/*Вор; атрибуты: рюкзак. Действия: сложить вещи в рюкзак.*/
 public class Thief extends Thread {
 
     private Bag bag = new Bag();
@@ -13,7 +13,6 @@ public class Thief extends Thread {
 
     public void stealItem(Item item) {
         this.bag.getItems().add(item);
-        //showStealProfit();
     }
 
     public void showStealProfit() {
@@ -33,10 +32,7 @@ public class Thief extends Thread {
     }
 
     public double getBagCurrentWeight() {
-        //return this.bag.getBagWeight();
         return this.bag.getItems().stream().mapToDouble(Item::getWeight).sum();
-        /*return*/
-
     }
 
     public double getBagTotalValue() {
