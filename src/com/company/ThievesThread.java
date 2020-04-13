@@ -21,7 +21,6 @@ public class ThievesThread extends Thread {
         System.out.println("Total thieves: " + thieves.size());
 
         for (Thief thief : thieves) {
-
             try
             {
                 House.stealItem(thief);
