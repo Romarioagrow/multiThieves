@@ -1,12 +1,4 @@
-package com.company;
-
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-public class Main {
- /*
+/*
 Задача:
 Необходимо реализовать многопоточное приложение, которое решает следующую задачу:
 
@@ -46,17 +38,14 @@ public class Main {
 Программа работает пока все потоки не завершатся
 */
 
+package com.company;
+import lombok.extern.java.Log;
+
+@Log
+public class Main {
     public static void main(String[] args) {
         House house = new House();
         new OwnersThread(house).start();
         new ThievesThread(house).start();
-
-       /*
-       List<Item> house = Collections.synchronizedList(new ArrayList<>());
-       synchronized (house) {
-            new OwnersThread(house).start();
-            new ThievesThread(house).start();
-        }
-        */
     }
 }
