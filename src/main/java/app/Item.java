@@ -1,7 +1,8 @@
 package app;
 
-import java.util.Random;
+import lombok.ToString;
 
+@ToString
 public class Item {
     /// Вещь; атрибуты: вес, ценность
     public double value, weight;

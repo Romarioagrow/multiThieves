@@ -1,51 +1,107 @@
 package app;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import lombok.Data;
+import lombok.SneakyThrows;
+import lombok.extern.java.Log;
+
+import java.time.LocalTime;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+
+/*
+Нужно обеспечить условие чтобы хозяева могли выкладывать вещи одновременно, но при условии что в этот момент вор не ворует из дома.
+Выкладка вещей хозяином в цикле по одной а не addAll
+
+Хозяин сначала должен проверить может ли он войти (если дома есть вор то не может).
+Если вошел то выкладывает по одной пока не закончатся вещи и выходит (при этом список его рюкзака после этого должен быть пуст)
+
+Вор должен проверить нет ли дома вора или хозяина - если нет то приходит и берет всё что нужно
+Важно соблюсти условие - чтобы вещи не дублировались и не исчезали
+Т.е. общая масса вещей перед началом работы и в конце работы должна быть одинаковой.
+Просто вначале все вещи находятся в рюкзаках хозяев. А в конце распределены по ворам и дому
+*/
 
 public class House {
-    static List<Item> itemsInHouse = Collections.synchronizedList(new ArrayList<>());
+    public static List<Item> itemsInHouse = Collections.synchronizedList(new ArrayList<>());
+    public static List<Owner> ownersInHouse = Collections.synchronizedList(new ArrayList<>());
+    public static List<Thief> thievesInHouse = Collections.synchronizedList(new ArrayList<>());
 
-    public static synchronized void addItem(Owner owner) throws InterruptedException {
-        System.out.println("\nOwner adding");
+    public static synchronized void addItemToHouse() {
+        System.out.println("Owner entered!\nOwners in house now: " + ownersInHouse.size());
 
-        itemsInHouse.addAll(owner.getAllItems());
-        System.out.println("Total items after add: " + itemsInHouse.size());
-        Thread.sleep(500);
+        ExecutorService executorService = Executors.newFixedThreadPool(ownersInHouse.size());
+        try
+        {
+            for (Owner ownerInHouse : ownersInHouse) {
+                executorService.submit(() -> {
+
+                    System.out.println("Owner thread: " + Thread.currentThread().getId() + " Time: " + LocalTime.now());
+                    System.out.println("Owner has items: " + ownerInHouse.getAllItems().size());
+
+                    ownerInHouse.getAllItems().forEach(item -> {
+                        System.out.println("Owner adding item to house");
+                        itemsInHouse.add(item);
+                    });
+
+                    //ownersInHouse.removeIf(owner -> true);
+                    ownersInHouse.remove(ownerInHouse);
+                    System.out.println("Owner added all item, total in house: " + itemsInHouse.size());
+                    System.out.println("Owner leave");
+                    System.out.println("ownersInHouse: " + ownersInHouse.size());
+
+                    /*try
+                    {
+                        Thread.sleep(1500);
+                    }
+                    catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }*/
+
+                });
+            }
+        }
+        finally {
+            executorService.shutdown();
+        }
+
+        /* ConcurrentModificationException при удалении Owner, не может уйти
+        ownersInHouse.parallelStream().forEach(ownerInHouse -> {
+            System.out.println("Owner has items: " + ownerInHouse.getAllItems().size());
+            ownerInHouse.getAllItems().forEach(item -> {
+                System.out.println("Owner adding item to house");
+                itemsInHouse.add(item);
+            });
+            //ownersInHouse.removeIf(owner -> true);
+            System.out.println("Owner added all item, total in house: " + itemsInHouse.size());
+            System.out.println("Owner leave");
+            System.out.println("ownersInHouse: " + ownersInHouse.size());
+            Thread.sleep(500);
+            //exitOwner.add(ownerInHouse);
+        });
+        ownersInHouse.removeAll(exitOwner);
+        */
+
     }
 
-    public static synchronized void stealItem(Thief thief) throws InterruptedException {
-        System.out.println("\nThief stealing");
+    public static synchronized void stealItemFromHouse() throws InterruptedException {
+        System.out.println("Thief stealing");
 
+        Thief thiefInHouse = thievesInHouse.get(0);
         itemsInHouse.sort(Comparator.comparingDouble(Item::getValue).reversed());
 
-        if (itemsInHouse.size() == 0) {
-            System.out.println("Thief in the house, but nothing to steal...");
-            Thread.sleep(500);
-        }
+        itemsInHouse.stream()
+                .takeWhile(item -> thiefInHouse.getBagCurrentWeight() + item.getWeight() < thiefInHouse.getBagTotalWeight())
+                .forEach(thiefInHouse::stealItem);
 
-        for (int i = 0; i < itemsInHouse.size() ; i++) {
+        itemsInHouse.removeAll(thiefInHouse.getBag().getItems());
 
-            Item itemToSteal = itemsInHouse.get(i);
+        thiefInHouse.showStealProfit();
+        System.out.println("\nItems in house after stealing: " + itemsInHouse.size());
 
-            if (thief.getBagCurrentWeight() + itemToSteal.getWeight() < thief.getBagTotalWeight())
-            {
-                thief.stealItem(itemToSteal);
-                itemsInHouse.remove(itemToSteal);
-            }
-            else break;
-        }
-        System.out.println("Item in house after steal: " + itemsInHouse.size());
-        Thread.sleep(500);
-    }
-
-    public static void showItemsInHouseInfo(List<Item> items) {
-        System.out.println();
-        items.forEach(item -> {
-            System.out.println(item.getValue());
-        });
+        thievesInHouse.remove(thiefInHouse);
+        System.out.println("Thief leaving.");
     }
 }
 

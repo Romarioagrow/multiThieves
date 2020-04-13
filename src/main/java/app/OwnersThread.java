@@ -1,33 +1,48 @@
 package app;
 
+import lombok.SneakyThrows;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class OwnersThread extends Thread {
     public static House house;
 
-    List<Owner> owners = new ArrayList<>();
+    List<Owner> allOwners = new ArrayList<>();
 
     public OwnersThread(House house) {
         OwnersThread.house = house;
 
         for (int i = 0; i < getRandomOwnersAmount(); i++) {
-            owners.add(new Owner());
+            allOwners.add(new Owner());
         }
+
+        System.out.println("Total owners: " + allOwners.size());
     }
 
+    @SneakyThrows
     @Override
     public void run() {
-        System.out.println("Total owners: " + owners.size());
-
-        for (Owner owner : owners) {
-
-            try
+        for (Owner owner : allOwners)
+        {
+            boolean ownerNotEntering = true;
+            while(ownerNotEntering)
             {
-                House.addItem(owner);
-            }
-            catch (InterruptedException e) {
-                e.printStackTrace();
+                System.out.println("\nSomeone in?");
+
+                if (House.thievesInHouse.isEmpty())
+                {
+                    System.out.println("No thieves, Owner entering..");
+                    House.ownersInHouse.add(owner);
+                    House.addItemToHouse();
+                    Thread.sleep(100);
+                    ownerNotEntering = false;
+                }
+                else
+                {
+                    System.out.println("Thief in the House! Waiting...\n");
+                    Thread.sleep(1000);
+                }
             }
         }
     }
