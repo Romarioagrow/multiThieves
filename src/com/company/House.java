@@ -21,7 +21,23 @@ public class House {
 
         itemsInHouse.sort(Comparator.comparingDouble(Item::getValue).reversed());
 
+        if (itemsInHouse.size() == 0) {
+            System.out.println("Thief in the house, but nothing to steal...");
+            Thread.sleep(500);
+
+        }
+
         for (int i = 0; i < itemsInHouse.size() ; i++) {
+
+
+            /*System.out.println(itemsInHouse.size());
+            System.out.println(itemsInHouse.toString());*/
+
+            /*if (itemsInHouse.size() == 0) {
+                System.out.println("Thief in the house, but nothing to steal...");
+                break;
+            }*/
+
             Item itemToSteal = itemsInHouse.get(i);
 
             if (thief.getBagCurrentWeight() + itemToSteal.getWeight() < thief.getBagTotalWeight())
