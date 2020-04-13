@@ -1,4 +1,4 @@
-package com.company;
+package app;
 
 public class Thief extends Thread{
     /// Вор; атрибуты: рюкзак. Действия: сложить вещи в рюкзак.

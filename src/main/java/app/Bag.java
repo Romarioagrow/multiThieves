@@ -1,4 +1,4 @@
-package com.company;
+package app;
 
 public class Bag {
     /// Рюкзак; атрибуты: предельный вес

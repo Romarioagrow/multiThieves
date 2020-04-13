@@ -38,7 +38,7 @@
 Программа работает пока все потоки не завершатся
 */
 
-package com.company;
+package app;
 import lombok.extern.java.Log;
 
 @Log
