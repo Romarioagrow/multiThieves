@@ -12,6 +12,7 @@ public class Bag {
     List<Item> items = new ArrayList<>();
 
     private final double totalWeight = 20;
+
     private double bagWeight = 0, bagValue = 0;
 
     public Bag() {

@@ -1,13 +1,13 @@
 package app;
 
-import lombok.Data;
-import lombok.SneakyThrows;
-import lombok.extern.java.Log;
-
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 /*
@@ -25,10 +25,34 @@ import java.util.concurrent.Executors;
 
 public class House {
     public static List<Item> itemsInHouse = Collections.synchronizedList(new ArrayList<>());
-    public static List<Owner> ownersInHouse = Collections.synchronizedList(new ArrayList<>());
-    public static List<Thief> thievesInHouse = Collections.synchronizedList(new ArrayList<>());
 
-    public static synchronized void addItemToHouse() {
+    public static List<Person> peopleInHouse = Collections.synchronizedList(new ArrayList<>());
+
+    public static ReentrantLock locker = new ReentrantLock();
+
+
+    /*public static List<Owner> ownersInHouse = Collections.synchronizedList(new ArrayList<>());
+    public static List<Thief> thievesInHouse = Collections.synchronizedList(new ArrayList<>());*/
+
+
+
+    /*public boolean noThiefInHouse() {
+
+
+        //return peopleInHouse.forEach(person -> {person.getClass().getName().equals("Thief"));
+        peopleInHouse.forEach(person -> {
+            System.out.println(person.getClass().getName());
+        });
+
+
+
+        return false;
+
+    }*/
+
+
+
+    /*public static synchronized void addItemToHouse() {
         System.out.println("Owner entered!\nOwners in house now: " + ownersInHouse.size());
 
         ExecutorService executorService = Executors.newFixedThreadPool(ownersInHouse.size());
@@ -57,7 +81,7 @@ public class House {
             executorService.shutdown();
         }
 
-        /* ConcurrentModificationException при удалении Owner, не может уйти
+        *//* ConcurrentModificationException при удалении Owner, не может уйти
         ownersInHouse.parallelStream().forEach(ownerInHouse -> {
             System.out.println("Owner has items: " + ownerInHouse.getAllItems().size());
             ownerInHouse.getAllItems().forEach(item -> {
@@ -72,11 +96,11 @@ public class House {
             //exitOwner.add(ownerInHouse);
         });
         ownersInHouse.removeAll(exitOwner);
-        */
+        *//*
 
-    }
+    }*/
 
-    public static synchronized void stealItemFromHouse() throws InterruptedException {
+    /*public static synchronized void stealItemFromHouse() {
         System.out.println("Thief stealing");
 
         Thief thiefInHouse = thievesInHouse.get(0);
@@ -93,7 +117,7 @@ public class House {
 
         thievesInHouse.remove(thiefInHouse);
         System.out.println("Thief leaving.");
-    }
+    }*/
 }
 
 
