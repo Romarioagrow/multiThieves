@@ -27,131 +27,19 @@ import java.util.concurrent.locks.ReentrantLock;
 @Data
 public class House {
     public static List<Item> itemsInHouse = Collections.synchronizedList(new ArrayList<>());
-
     public static List<Person> peopleInHouse = Collections.synchronizedList(new ArrayList<>());
-
-    public static ReentrantLock locker = new ReentrantLock();
+    /*public static ReentrantLock locker = new ReentrantLock();*/
 
     public static boolean noOneInHouse() {
-
-
         return peopleInHouse.isEmpty();
-
-
-
     }
 
     public static boolean noThievesInHouse() {
-
-
         for (Person person : peopleInHouse) {
-
-
             if (person.getClass().getName().equals("Thief")) return false;
-
-
         }
-
         return true;
-
-
-        /*peopleInHouse.forEach(person -> {
-            //System.out.println(person.getClass().getName().equals("Thief"));
-
-            if (person.getClass().getName().equals("Thief")) return
-
-        });*/
-        //return true;
     }
-
-
-    /*public static List<Owner> ownersInHouse = Collections.synchronizedList(new ArrayList<>());
-    public static List<Thief> thievesInHouse = Collections.synchronizedList(new ArrayList<>());*/
-
-
-
-    /*public boolean noThiefInHouse() {
-
-
-        //return peopleInHouse.forEach(person -> {person.getClass().getName().equals("Thief"));
-        peopleInHouse.forEach(person -> {
-            System.out.println(person.getClass().getName());
-        });
-
-
-
-        return false;
-
-    }*/
-
-
-
-    /*public static synchronized void addItemToHouse() {
-        System.out.println("Owner entered!\nOwners in house now: " + ownersInHouse.size());
-
-        ExecutorService executorService = Executors.newFixedThreadPool(ownersInHouse.size());
-        try
-        {
-            for (Owner ownerInHouse : ownersInHouse) {
-                executorService.submit(() -> {
-
-                    System.out.println("Owner thread: " + Thread.currentThread().getId() + " Time: " + LocalTime.now());
-                    System.out.println("Owner has items: " + ownerInHouse.getAllItems().size());
-
-                    ownerInHouse.getAllItems().forEach(item -> {
-                        System.out.println("Owner adding item to house");
-                        itemsInHouse.add(item);
-                    });
-
-                    //ownersInHouse.removeIf(owner -> true);
-                    ownersInHouse.remove(ownerInHouse);
-                    System.out.println("Owner added all item, total in house: " + itemsInHouse.size());
-                    System.out.println("Owner leave");
-                    System.out.println("ownersInHouse: " + ownersInHouse.size());
-                });
-            }
-        }
-        finally {
-            executorService.shutdown();
-        }
-
-        *//* ConcurrentModificationException при удалении Owner, не может уйти
-        ownersInHouse.parallelStream().forEach(ownerInHouse -> {
-            System.out.println("Owner has items: " + ownerInHouse.getAllItems().size());
-            ownerInHouse.getAllItems().forEach(item -> {
-                System.out.println("Owner adding item to house");
-                itemsInHouse.add(item);
-            });
-            //ownersInHouse.removeIf(owner -> true);
-            System.out.println("Owner added all item, total in house: " + itemsInHouse.size());
-            System.out.println("Owner leave");
-            System.out.println("ownersInHouse: " + ownersInHouse.size());
-            Thread.sleep(500);
-            //exitOwner.add(ownerInHouse);
-        });
-        ownersInHouse.removeAll(exitOwner);
-        *//*
-
-    }*/
-
-    /*public static synchronized void stealItemFromHouse() {
-        System.out.println("Thief stealing");
-
-        Thief thiefInHouse = thievesInHouse.get(0);
-        itemsInHouse.sort(Comparator.comparingDouble(Item::getValue).reversed());
-
-        itemsInHouse.stream()
-                .takeWhile(item -> thiefInHouse.getBagCurrentWeight() + item.getWeight() < thiefInHouse.getBagTotalWeight())
-                .forEach(thiefInHouse::stealItem);
-
-        itemsInHouse.removeAll(thiefInHouse.getBag().getItems());
-
-        thiefInHouse.showStealProfit();
-        System.out.println("\nItems in house after stealing: " + itemsInHouse.size());
-
-        thievesInHouse.remove(thiefInHouse);
-        System.out.println("Thief leaving.");
-    }*/
 }
 
 

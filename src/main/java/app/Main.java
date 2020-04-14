@@ -45,11 +45,7 @@ import lombok.extern.java.Log;
 public class Main {
     public static void main(String[] args) {
         House house = new House();
-
-        //synchronized (house) {
         new OwnersThread().start();
         new ThievesThread().start();
-        //}
-
     }
 }
