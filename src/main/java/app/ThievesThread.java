@@ -7,10 +7,11 @@ import java.util.ConcurrentModificationException;
 import java.util.List;
 
 public class ThievesThread extends Thread {
-    //public static House house;
+    public static House house;
     //public List<Thief> allThieves = new ArrayList<>();
 
     public ThievesThread(/*House house*/) {
+
         //ThievesThread.house = house;
 
         /*for (int i = 0; i < getRandomThievesAmount(); i++) {
@@ -20,34 +21,62 @@ public class ThievesThread extends Thread {
         System.out.println("Total thieves: " + allThieves.size());*/
     }
 
+    //@SneakyThrows
     @SneakyThrows
     @Override
     public void run() {
+        int thievesAmount = getRandomAmount();
+        System.out.println("\n\nThievesThread RUN, TOTAL THIEVES: " + thievesAmount + "\n\n");
+
+        //int ownersAmount = getRandomAmount();
+
+        //synchronized (house.itemsInHouse) {
+
+        for (int i = 0; i < thievesAmount; i++) {
 
 
-        int ownersAmount = getRandomAmount();
+            //synchronized (House.locker) {
 
-        synchronized (House.itemsInHouse) {
+            //System.out.println("House.locker thief : " + House.locker.isLocked());
 
-            for (int i = 0; i < ownersAmount; i++) {
+            ///boolean notEntering = true;
+
+            ///while (notEntering) {
 
 
-                Thief thief = new Thief();
-                thief.start();
-                /// if house.persons содержит thief to ждать
+            ///System.out.println("noOneInHouse" + House.noOneInHouse());
+            ///if (House.noOneInHouse()) {
 
-            }
+            /// notEntering = false;
+            Thief thief = new Thief();
+            thief.start();
+
+            //}
+                /*else
+                {
+                    System.out.println("Thief see other thief in house, waiting...");
+
+                    Thread.sleep(500);
+                }*/
+
+            // }
+
+
+            //}
+
+
+            /// if house.persons содержит thief to ждать
 
         }
 
-
+        //}
 
         //thievesCycle();
 
     }
 
     public int getRandomAmount() {
-        return (int) (Math.random() * 1000 + 1);
+        return (int) (Math.random() * 100 + 1);
     }
 
 
@@ -102,13 +131,13 @@ public class ThievesThread extends Thread {
                 *//*finally {
                     House.locker.unlock();
                 }*//*
-                *//*catch (InterruptedException e) {
+         *//*catch (InterruptedException e) {
                     e.printStackTrace();
                 }*//*
-                *//*finally {
+         *//*finally {
                     House.locker.unlock();
                 }*//*
-                *//*catch (InterruptedException e) {
+         *//*catch (InterruptedException e) {
                     e.printStackTrace();
                 }*//*
                 //}

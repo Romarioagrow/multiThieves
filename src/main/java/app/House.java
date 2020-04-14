@@ -1,5 +1,7 @@
 package app;
 
+import lombok.Data;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,13 +24,45 @@ import java.util.concurrent.locks.ReentrantLock;
 Т.е. общая масса вещей перед началом работы и в конце работы должна быть одинаковой.
 Просто вначале все вещи находятся в рюкзаках хозяев. А в конце распределены по ворам и дому
 */
-
+@Data
 public class House {
     public static List<Item> itemsInHouse = Collections.synchronizedList(new ArrayList<>());
 
     public static List<Person> peopleInHouse = Collections.synchronizedList(new ArrayList<>());
 
     public static ReentrantLock locker = new ReentrantLock();
+
+    public static boolean noOneInHouse() {
+
+
+        return peopleInHouse.isEmpty();
+
+
+
+    }
+
+    public static boolean noThievesInHouse() {
+
+
+        for (Person person : peopleInHouse) {
+
+
+            if (person.getClass().getName().equals("Thief")) return false;
+
+
+        }
+
+        return true;
+
+
+        /*peopleInHouse.forEach(person -> {
+            //System.out.println(person.getClass().getName().equals("Thief"));
+
+            if (person.getClass().getName().equals("Thief")) return
+
+        });*/
+        //return true;
+    }
 
 
     /*public static List<Owner> ownersInHouse = Collections.synchronizedList(new ArrayList<>());

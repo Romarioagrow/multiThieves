@@ -1,5 +1,8 @@
 package app;
 
+import lombok.SneakyThrows;
+
+import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,43 +17,97 @@ public class Thief extends Person/*extends Thread*/ {
     }*/
 
 
+    /*public Person() {
+        int itemsAmount = getRandomNumber();
+
+        for (int i = 0; i < itemsAmount; i++) {
+            getAllBagItems().add(new Item());
+        }
+    }*/
+
+
+    @SneakyThrows
     @Override
     public void run() {
         //super.run();
 
-        synchronized (House.itemsInHouse) {
+        //synchronized (House.itemsInHouse) {
 
-            stealItemFromHouse();
+
+
+
+        boolean notEntering = true;
+
+        while (notEntering) {
+
+            if (House.noOneInHouse()) {
+
+
+                stealItemFromHouse();
+
+                notEntering = false;
+
+
+            }
+
+            else
+            {
+                //System.out.println("Thief see other thief in house, waiting...");
+
+                Thread.sleep(500);
+            }
+
 
         }
+
+
+        //}
 
     }
 
 
 
-    public synchronized void stealItemFromHouse() {
-        System.out.println("Thief stealing");
+    @SneakyThrows
+    public /*synchronized*/ void stealItemFromHouse() {
 
-        House.locker.lock();
-        System.out.println("House locked!");
+        //System.out.println("House.locker thief : " + House.locker.isLocked());
+
+        synchronized (House.itemsInHouse) {
+
+            //House.locker.lock();
+            House.peopleInHouse.add(this);
 
 
-        //Thief thiefInHouse = thievesInHouse.get(0);
-        List<Item> itemsToSteal = House.itemsInHouse.stream().sorted(Comparator.comparingDouble(Item::getValue).reversed()).collect(Collectors.toList());//sort(Comparator.comparingDouble(Item::getValue).reversed());
 
-        itemsToSteal.stream()
-                .takeWhile(item -> this.getBagCurrentWeight() + item.getWeight() < this.getBagTotalWeight())
-                .forEach(this::stealItem);
+            System.out.println("\nNo owners or other thieves!\nThief stealing! Thief Thread: " + Thread.currentThread().getId() + " Time: " + LocalTime.now());
 
-        House.itemsInHouse.removeAll(this.getBag().getItems());
+            //Thief thiefInHouse = thievesInHouse.get(0);
+            List<Item> itemsToSteal = House.itemsInHouse.stream().sorted(Comparator.comparingDouble(Item::getValue).reversed()).collect(Collectors.toList());//sort(Comparator.comparingDouble(Item::getValue).reversed());
 
-        this.showStealProfit();
-        System.out.println("\nItems in house after stealing: " + House.itemsInHouse.size());
+            itemsToSteal.stream()
+                    .takeWhile(item -> this.getBagCurrentWeight() + item.getWeight() < this.getBagTotalWeight())
+                    .forEach(this::stealItem);
 
-        House.locker.unlock();
-        System.out.println("House unlocked, thief leave!");
+            House.itemsInHouse.removeAll(getAllBagItems());
 
-        Thread.yield();
+            this.showStealProfit();
+            System.out.println("Items in house after stealing: " + House.itemsInHouse.size());
+
+            //House.locker.unlock();
+            //System.out.println("House unlocked, thief leave!");
+
+
+            House.peopleInHouse.remove(this);
+            //System.out.println("Thief leave!");
+            //System.out.println("peopleInHouse: " +  House.peopleInHouse.size());
+            System.out.println("Thief LEAVE! Thief Thread: " + Thread.currentThread().getId() + " Time: " + LocalTime.now());
+
+            //Thread.yield();
+            //Thread.sleep(500);
+
+        }
+
+
 
         //thievesInHouse.remove(thiefInHouse);
         //System.out.println("Thief leaving.");
@@ -69,7 +126,8 @@ public class Thief extends Person/*extends Thread*/ {
 
         System.out.println("Thief's items in the bag: " + bagItems.size());
         bagItems.forEach(item -> {
-            System.out.format("\nValue: %s, Weight: %s", item.value, item.weight);
+            //System.out.format("Value: %s, Weight: %s", item.value, item.weight);
+            System.out.println("Value: " + item.value + " Weight: " + item.weight);
         });
     }
 

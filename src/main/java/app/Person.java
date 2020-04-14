@@ -17,13 +17,13 @@ public class Person extends Thread {
         return this.bag.getItems();
     }
 
-    public Person() {
+    /*public Person() {
         int itemsAmount = getRandomNumber();
 
         for (int i = 0; i < itemsAmount; i++) {
             getAllBagItems().add(new Item());
         }
-    }
+    }*/
 
     public int getRandomNumber() {
         return (int) (Math.random() * 10 + 1);

@@ -2,54 +2,91 @@ package app;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.ToString;
 
 import java.time.LocalTime;
 
 @Data
 @ToString
-@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Owner extends Person {
-    //List<Item> items = new ArrayList<>();
 
-    /*public Owner() {
-        *//*int itemsAmount = (int) (Math.random() * 10 + 1);
+    public Owner() {
+        int itemsAmount = getRandomNumber();
 
         for (int i = 0; i < itemsAmount; i++) {
             getAllBagItems().add(new Item());
-        }*//*
-    }*/
+        }
+    }
 
-    /*public List<Item> getAllItems() {
-        return this.items;
-    }*/
 
+    @SneakyThrows
     @Override
     public void run() {
 
-        synchronized (House.itemsInHouse) {
-            addItemToHouse();
+        //
+        boolean notEntering = true;
+
+        while(notEntering) {
+
+            if (House.noThievesInHouse()) {
+
+                addItemToHouse();
+
+                notEntering = false;
+            }
+            else
+            {
+                System.out.println("Owner see thief in house!!!");
+
+                Thread.sleep(500);
+            }
+
         }
+
+
+
+
+
+        /*synchronized (House.itemsInHouse) {
+
+        }*/
 
     }
 
-    public synchronized void addItemToHouse() {
+    @SneakyThrows
+    public /*synchronized*/ void addItemToHouse() {
+
+        //System.out.println("\nHouse.locker owner : " + House.locker.isLocked());
+
+        synchronized (House.itemsInHouse) {
+
+            House.peopleInHouse.add(this);
+
+            System.out.println("\nOwner entered!\nOwner thread: " + Thread.currentThread().getId() + " Time: " + LocalTime.now());
+            System.out.println("Owner has items: " + getAllBagItems().size());
+
+            getAllBagItems().forEach(item -> {
+                System.out.println("Owner adding item to house");
+                House.itemsInHouse.add(item);
+            });
+
+            System.out.println("Owner added all item, total in house: " + House.itemsInHouse.size());
+
+            House.peopleInHouse.remove(this);
+
+            System.out.println("peopleInHouse: " +  House.peopleInHouse.size());
+            //Thread.yield();
+
+            //Thread.sleep(500);
+
+        }
+
         //System.out.println("Owner entered!\nOwners in house now: " + House.ownersInHouse.size());
         //System.out.println("Owner thread: " + Thread.currentThread().getId() + " Time: " + LocalTime.now());
 
-        System.out.println("Owner entered!\nOwner thread: " + + Thread.currentThread().getId() + " Time: " + LocalTime.now());
-        System.out.println("Owner has items: " + getAllBagItems().size());
 
-        getAllBagItems().forEach(item -> {
-            System.out.println("Owner adding item to house");
-            House.itemsInHouse.add(item);
-        });
-
-        System.out.println("Owner added all item, total in house: " + House.itemsInHouse.size());
-
-        Thread.yield();
 
 
         /*

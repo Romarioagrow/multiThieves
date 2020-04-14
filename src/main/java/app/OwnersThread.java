@@ -1,72 +1,70 @@
 package app;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
-import java.util.ArrayList;
-import java.util.List;
-
+//@Data//@NoArgsConstructor
 public class OwnersThread extends Thread {
 
     //public static House house;
 
-    //ReentrantLock lock = new ReentrantLock();
-
-    List<Owner> allOwners = new ArrayList<>();
-
-    //static int ownersAmount = 0;
-
-    //
-
-
-
-
     public OwnersThread(/*House house*/) {
-       //this.house = house;
 
         //OwnersThread.house = house;
-
-        /*this.ownersAmount = getRandomOwnersAmount();
-
-        for (int i = 0; i < getRandomOwnersAmount(); i++) {
-            allOwners.add(new Owner());
-        }*/
-
-
-
-        //System.out.println("Total owners: " + allOwners.size());
     }
+
 
     @SneakyThrows
     @Override
     public void run() {
-
         int ownersAmount = getRandomAmount();
+        System.out.println("\n\nOwnersThread RUN, TOTAL OWNERS: " + ownersAmount + "\n\n");
 
-        synchronized (House.itemsInHouse) {
+        //synchronized (house.itemsInHouse) {
+        for (int i = 0; i < ownersAmount; i++) {
 
-            for (int i = 0; i < ownersAmount; i++) {
+            //synchronized (House.locker) {
 
+            /*boolean notEntering = true;
 
-                Owner owner = new Owner();
-                owner.start();
-                /// if house.persons содержит thief to ждать
-
-            }
-
-        }
+            while (notEntering) {*/
 
 
-        //ownersCycle();
+            //if (House.noThievesInHouse()) {
+
+            //notEntering = false;
+
+            Owner owner = new Owner();
+            owner.start();
+
+
+               /* }
+
+
+                else {
+                    System.out.println("Owner see thief in house!!!");
+
+                    Thread.sleep(500);
+                }*/
+
+
+
+        //}
+
+        //System.out.println("House.locker owner : " + House.locker.isLocked());
+
+        //}
+
 
     }
+    //}
+}
 
     @SneakyThrows
     private synchronized void ownersCycle() {
 
         int ownersAmount = getRandomAmount();
-
-
-
 
         /*int counter = 0;
         do {
@@ -137,7 +135,7 @@ public class OwnersThread extends Thread {
     }
 
     public int getRandomAmount() {
-        return (int) (Math.random() * 1000 + 1);
+        return (int) (Math.random() * 100 + 1);
     }
 }
 

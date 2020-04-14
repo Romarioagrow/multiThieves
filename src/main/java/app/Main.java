@@ -47,8 +47,8 @@ public class Main {
         House house = new House();
 
         //synchronized (house) {
-            new OwnersThread().start();
-            new ThievesThread().start();
+        new OwnersThread().start();
+        new ThievesThread().start();
         //}
 
     }
