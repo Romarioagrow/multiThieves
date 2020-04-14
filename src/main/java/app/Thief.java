@@ -24,10 +24,9 @@ public class Thief extends Person {
             }
             else
             {
-                log.info("\nThief see other thief in house, waiting...");
+                log.info("Thread: " + Thread.currentThread().getId() + ", Thief see other thief in house, waiting...");
                 Thread.sleep(500);
             }
-
         }
     }
 
@@ -56,6 +55,7 @@ public class Thief extends Person {
 
             House.peopleInHouse.remove(this);
             System.out.println("Thief LEAVE! Thief Thread: " + Thread.currentThread().getId() + " Time of end: " + LocalTime.now());
+            //Thread.sleep(100);
         }
     }
 
