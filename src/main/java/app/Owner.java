@@ -28,8 +28,6 @@ public class Owner extends Person {
         boolean notEntering = true;
 
         while(notEntering) {
-            //System.out.println("Owner looking in the house.");
-
             if (House.noThievesInHouse()) {
 
                 addItemToHouse();
@@ -49,7 +47,7 @@ public class Owner extends Person {
 
             House.peopleInHouse.add(this);
 
-            System.out.println("\nOwner entered!\nOwner thread: " + Thread.currentThread().getId() + " Time: " + LocalTime.now());
+            System.out.println("\nNo thieves on house, Owner entered!\nOwner thread: " + Thread.currentThread().getId() + " Time: " + LocalTime.now());
             System.out.println("Owner has items: " + getAllBagItems().size());
 
             getAllBagItems().forEach(item -> {
@@ -58,10 +56,7 @@ public class Owner extends Person {
             });
 
             System.out.println("Owner added all item, total in house: " + House.itemsInHouse.size());
-
             House.peopleInHouse.remove(this);
-            System.out.println("peopleInHouse: " +  House.peopleInHouse.size());
-
         }
     }
 }

@@ -18,8 +18,6 @@ public class Thief extends Person {
         boolean notEntering = true;
 
         while (notEntering) {
-            //System.out.println("\nThief looking in the house...");
-
             if (House.noOneInHouse()) {
                 stealItemFromHouse();
                 notEntering = false;
@@ -37,21 +35,27 @@ public class Thief extends Person {
     public void stealItemFromHouse() {
         synchronized (House.itemsInHouse) {
             House.peopleInHouse.add(this);
-            System.out.println("\nNo owners or other thieves!\nThief stealing! Thief Thread: " + Thread.currentThread().getId() + " Time: " + LocalTime.now());
+            System.out.println("\nNo owners or other thieves!\nThief stealing! Thief Thread: " + Thread.currentThread().getId() + " Time of start: " + LocalTime.now());
 
             List<Item> itemsToSteal = House.itemsInHouse.stream().sorted(Comparator.comparingDouble(Item::getValue).reversed()).collect(Collectors.toList());//sort(Comparator.comparingDouble(Item::getValue).reversed());
 
-            itemsToSteal.stream()
-                    .takeWhile(item -> this.getBagCurrentWeight() + item.getWeight() < this.getBagTotalWeight())
-                    .forEach(this::stealItem);
+            if (!itemsToSteal.isEmpty())
+            {
+                itemsToSteal.stream()
+                        .takeWhile(item -> this.getBagCurrentWeight() + item.getWeight() < this.getBagTotalWeight())
+                        .forEach(this::stealItem);
 
-            House.itemsInHouse.removeAll(getAllBagItems());
-
-            this.showStealProfit();
+                House.itemsInHouse.removeAll(getAllBagItems());
+                this.showStealProfit();
+            }
+            else
+            {
+                System.out.println("Nothing to steal here... :(");
+            }
             System.out.println("Items in house after stealing: " + House.itemsInHouse.size());
 
             House.peopleInHouse.remove(this);
-            System.out.println("Thief LEAVE! Thief Thread: " + Thread.currentThread().getId() + " Time: " + LocalTime.now());
+            System.out.println("Thief LEAVE! Thief Thread: " + Thread.currentThread().getId() + " Time of end: " + LocalTime.now());
         }
     }
 
