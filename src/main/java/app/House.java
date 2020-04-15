@@ -40,17 +40,12 @@ public class House {
                 }
                 return true;
             }
-            /*Iterator<Person> personIterator = peopleInHouse.iterator();
-            while (personIterator.hasNext()) {
-                if (personIterator.next().getClass().getName().equals("Thief")) return false;
-            }
-            return true;*/
+
         }
         catch (ConcurrentModificationException e) {
             e.printStackTrace();
             return false;
         }
-
     }
 
 
