@@ -2,9 +2,8 @@ package app;
 
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 /*
@@ -23,17 +22,34 @@ import java.util.List;
 public class House {
     public static List<Item> itemsInHouse = Collections.synchronizedList(new ArrayList<>());
     public static List<Person> peopleInHouse = Collections.synchronizedList(new ArrayList<>());
-    /*public static ReentrantLock locker = new ReentrantLock();*/
+    public static ReentrantLock locker = new ReentrantLock();
 
     public static boolean noOneInHouse() {
         return peopleInHouse.isEmpty();
     }
 
     public static boolean noThievesInHouse() {
-        for (Person person : peopleInHouse) {
+        try {
+            Iterator<Person> personIterator = peopleInHouse.iterator();
+            while (personIterator.hasNext()) {
+                if (personIterator.next().getClass().getName().equals("Thief")) return false;
+            }
+            return true;
+        }
+        catch (ConcurrentModificationException e) {
+            e.printStackTrace();
+            return false;
+        }
+        /*for (Person person : peopleInHouse) {
             if (person.getClass().getName().equals("Thief")) return false;
         }
-        return true;
+        return true;*/
+    }
+
+
+
+    public static int getPeopleInHouseAmount() {
+        return peopleInHouse.size();
     }
 }
 

@@ -19,12 +19,18 @@ public class Thief extends Person {
 
         while (notEntering) {
             if (House.noOneInHouse()) {
+                House.locker.lock();
+                System.out.println("House is locked by Thief");
+
                 stealItemFromHouse();
                 notEntering = false;
+
+                House.locker.unlock();
+                System.out.println("House is unlocked!");
             }
             else
             {
-                log.info("Thread: " + Thread.currentThread().getId() + ", Thief see other thief in house, waiting...");
+                System.out.println("\nThread: " + Thread.currentThread().getId() + ", Thief see someone in house, waiting...\n");
                 Thread.sleep(500);
             }
         }
@@ -33,7 +39,14 @@ public class Thief extends Person {
     @SneakyThrows
     public void stealItemFromHouse() {
         synchronized (House.itemsInHouse) {
+
+            System.out.println("People in house before thief enter: " + House.peopleInHouse.size());
             House.peopleInHouse.add(this);
+
+
+            /*House.locker.lock();
+            System.out.println("House is locked by Thief");*/
+
             System.out.println("\nNo owners or other thieves!\nThief stealing! Thief Thread: " + Thread.currentThread().getId() + " Time of start: " + LocalTime.now());
 
             List<Item> itemsToSteal = House.itemsInHouse.stream().sorted(Comparator.comparingDouble(Item::getValue).reversed()).collect(Collectors.toList());//sort(Comparator.comparingDouble(Item::getValue).reversed());
@@ -55,6 +68,9 @@ public class Thief extends Person {
 
             House.peopleInHouse.remove(this);
             System.out.println("Thief LEAVE! Thief Thread: " + Thread.currentThread().getId() + " Time of end: " + LocalTime.now());
+
+            /*House.locker.unlock();
+            System.out.println("House is unlocked!");*/
             //Thread.sleep(100);
         }
     }
