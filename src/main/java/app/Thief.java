@@ -43,7 +43,6 @@ public class Thief extends Person {
             System.out.println("People in house before thief enter: " + House.peopleInHouse.size());
             House.peopleInHouse.add(this);
 
-
             /*House.locker.lock();
             System.out.println("House is locked by Thief");*/
 

@@ -45,21 +45,20 @@ public class Owner extends Person {
     public void addItemToHouse() {
         //synchronized (House.itemsInHouse) {
 
-            House.peopleInHouse.add(this);
+        House.peopleInHouse.add(this);
 
-            System.out.println("\nNo thieves in house, Owner entered!\nOwner thread: " + Thread.currentThread().getId() + " Time: " + LocalTime.now());
-            System.out.println("Owners in house: " + House.getPeopleInHouseAmount());
-            System.out.println("Owner has items: " + getAllBagItems().size());
+        System.out.println("\nNo thieves in house, Owner entered!\nOwner thread: " + Thread.currentThread().getId() + " Time: " + LocalTime.now());
+        System.out.println("Owners in house: " + House.getPeopleInHouseAmount());
+        System.out.println("Owner has items: " + getAllBagItems().size());
 
-            getAllBagItems().forEach(item -> {
-                System.out.println("Owner adding item to house");
-                House.itemsInHouse.add(item);
-            });
+        getAllBagItems().forEach(item -> {
+            System.out.println("Owner adding item to house");
+            House.itemsInHouse.add(item);
+        });
 
-            System.out.println("Owner added all item, total in house: " + House.itemsInHouse.size());
-            House.peopleInHouse.remove(this);
-            System.out.println("Owner leave! Owners in house: " + House.getPeopleInHouseAmount());
-
+        System.out.println("Owner added all item, total in house: " + House.itemsInHouse.size());
+        House.peopleInHouse.remove(this);
+        System.out.println("Owner leave! Owners in house: " + House.getPeopleInHouseAmount());
 
             /*synchronized (System.out) {
             System.out.println("Owner leave! Owners in house: " + House.getPeopleInHouseAmount());

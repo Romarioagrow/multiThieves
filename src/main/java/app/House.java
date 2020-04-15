@@ -30,20 +30,23 @@ public class House {
 
     public static boolean noThievesInHouse() {
         try {
-            Iterator<Person> personIterator = peopleInHouse.iterator();
+            if (peopleInHouse.isEmpty()) return true;
+            for (Person person : peopleInHouse) {
+                if (person.getClass().getName().equals("Thief")) return false;
+            }
+            return true;
+
+            /*Iterator<Person> personIterator = peopleInHouse.iterator();
             while (personIterator.hasNext()) {
                 if (personIterator.next().getClass().getName().equals("Thief")) return false;
             }
-            return true;
+            return true;*/
         }
         catch (ConcurrentModificationException e) {
             e.printStackTrace();
             return false;
         }
-        /*for (Person person : peopleInHouse) {
-            if (person.getClass().getName().equals("Thief")) return false;
-        }
-        return true;*/
+
     }
 
 
