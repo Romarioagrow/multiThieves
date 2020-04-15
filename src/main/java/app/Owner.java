@@ -64,5 +64,6 @@ public class Owner extends Person {
             System.out.println("Owner leave! Owners in house: " + House.getPeopleInHouseAmount());
         }
         //}
+        /**/
     }
 }
