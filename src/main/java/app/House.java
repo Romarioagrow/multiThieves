@@ -30,12 +30,16 @@ public class House {
 
     public static boolean noThievesInHouse() {
         try {
-            if (peopleInHouse.isEmpty()) return true;
-            for (Person person : peopleInHouse) {
-                if (person.getClass().getName().equals("Thief")) return false;
-            }
-            return true;
 
+            synchronized (peopleInHouse) {
+
+                if (peopleInHouse.isEmpty()) return true;
+
+                for (Person person : peopleInHouse) {
+                    if (person.getClass().getName().equals("Thief")) return false;
+                }
+                return true;
+            }
             /*Iterator<Person> personIterator = peopleInHouse.iterator();
             while (personIterator.hasNext()) {
                 if (personIterator.next().getClass().getName().equals("Thief")) return false;
