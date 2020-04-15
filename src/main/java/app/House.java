@@ -45,6 +45,9 @@ public class House {
         catch (ConcurrentModificationException e) {
             e.printStackTrace();
             return false;
+
+            /*Thread.sleep(100);
+            return noThievesInHouse();*/
         }
     }
 
