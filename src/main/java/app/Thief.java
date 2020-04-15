@@ -20,7 +20,7 @@ public class Thief extends Person {
         while (notEntering) {
             if (House.noOneInHouse()) {
                 House.locker.lock();
-                System.out.println("House is locked by Thief");
+                System.out.println("\nHouse is locked by Thief");
 
                 stealItemFromHouse();
                 notEntering = false;
@@ -46,7 +46,7 @@ public class Thief extends Person {
             /*House.locker.lock();
             System.out.println("House is locked by Thief");*/
 
-            System.out.println("\nNo owners or other thieves!\nThief stealing! Thief Thread: " + Thread.currentThread().getId() + " Time of start: " + LocalTime.now());
+            System.out.println("No owners or other thieves!\nThief stealing! Thief Thread: " + Thread.currentThread().getId() + " Time of start: " + LocalTime.now());
 
             List<Item> itemsToSteal = House.itemsInHouse.stream().sorted(Comparator.comparingDouble(Item::getValue).reversed()).collect(Collectors.toList());//sort(Comparator.comparingDouble(Item::getValue).reversed());
 
