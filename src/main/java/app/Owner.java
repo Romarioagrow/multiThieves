@@ -58,11 +58,11 @@ public class Owner extends Person {
 
         System.out.println("Owner added all item, total in house: " + House.itemsInHouse.size());
         House.peopleInHouse.remove(this);
-        System.out.println("Owner leave! Owners in house: " + House.getPeopleInHouseAmount());
+        //System.out.println("Owner leave! Owners in house: " + House.getPeopleInHouseAmount());
 
-            /*synchronized (System.out) {
+            synchronized (System.out) {
             System.out.println("Owner leave! Owners in house: " + House.getPeopleInHouseAmount());
-        }*/
+        }
         //}
     }
 }
