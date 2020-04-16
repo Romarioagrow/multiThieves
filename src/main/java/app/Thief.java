@@ -58,9 +58,9 @@ public class Thief extends Person {
 
             try
             {
-                System.out.println("No owners or other thieves!\nThief entering house! Thief Thread: " + Thread.currentThread().getId() + " Time of start: " + LocalTime.now());
+//                System.out.println("No owners or other thieves!\nThief entering house! Thief Thread: " + Thread.currentThread().getId() + " Time of start: " + LocalTime.now());
 
-                House.lockHouse();
+                //House.lockHouse();
 
                 System.out.println("People in house before thief enter: " + House.peopleInHouse.size());
                 House.peopleInHouse.add(this);

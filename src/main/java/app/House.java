@@ -2,6 +2,7 @@ package app;
 
 import lombok.Data;
 
+import java.time.LocalTime;
 import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -44,7 +45,32 @@ public class House {
     }
 
     public static synchronized boolean isNobodyInHouse() {
-        return !locker.isLocked() && peopleInHouse.isEmpty();
+
+        synchronized (locker) {
+
+            synchronized (peopleInHouse) {
+
+                boolean isNobodyInHouse = !locker.isLocked() && peopleInHouse.isEmpty();
+
+                if (isNobodyInHouse) {
+
+                    lockHouse();
+
+                    System.out.println("No owners or other thieves!\nThief entering house! Thief Thread: " + Thread.currentThread().getId() + " Time of start: " + LocalTime.now());
+
+
+                    return true;
+
+                }
+
+                return false;
+
+
+            }
+
+        }
+
+        //return !locker.isLocked() && peopleInHouse.isEmpty();
     }
 
     /*public static synchronized boolean isNoThievesInHouse() {
