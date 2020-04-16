@@ -24,41 +24,43 @@ public class House {
     public static volatile List<Person> peopleInHouse = Collections.synchronizedList(new ArrayList<>());
     public static volatile ReentrantLock locker = new ReentrantLock();
 
-
-    public static synchronized boolean isHouseUnlocked() {
-        return !locker.isLocked();
+    public static boolean isHouseUnlocked() {
+        synchronized(locker) {
+            return !locker.isLocked();
+        }
     }
 
     public static boolean isNobodyInHouse() {
 
         synchronized (locker) {
 
-            synchronized (peopleInHouse) {
+            boolean isNobodyInHouse = !locker.isLocked() && peopleInHouse.isEmpty();
 
-                boolean isNobodyInHouse = !locker.isLocked() && peopleInHouse.isEmpty();
+            if (isNobodyInHouse) {
 
-                if (isNobodyInHouse) {
+                lockHouse();
 
-                    lockHouse();
+                System.out.println("No owners or other thieves!\nThief entering house! Thief Thread: " + Thread.currentThread().getId() + " Time of start: " + LocalTime.now());
 
-                    System.out.println("No owners or other thieves!\nThief entering house! Thief Thread: " + Thread.currentThread().getId() + " Time of start: " + LocalTime.now());
-
-                    return true;
-                }
-
-                return false;
-
+                return true;
             }
+
+            return false;
+
         }
     }
 
-    public static synchronized void lockHouse() {
-        locker.lock();
-        System.out.println("\nThread: " + Thread.currentThread().getId() + ", House is locked by Thief");
+    public static void lockHouse() {
+        synchronized(locker) {
+            locker.lock();
+            System.out.println("\nThread: " + Thread.currentThread().getId() + ", House is locked by Thief");
+        }
     }
 
-    public static synchronized void unlockHouse() {
-        locker.unlock();
+    public static void unlockHouse() {
+        synchronized(locker) {
+            locker.unlock();
+        }
     }
 
     public static int getPeopleInHouseAmount() {
@@ -67,4 +69,3 @@ public class House {
 }
 
 
-/**/
