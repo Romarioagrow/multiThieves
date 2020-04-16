@@ -29,7 +29,7 @@ public class House {
         return !locker.isLocked();
     }
 
-    public static synchronized boolean isNobodyInHouse() {
+    public static boolean isNobodyInHouse() {
 
         synchronized (locker) {
 
@@ -49,10 +49,8 @@ public class House {
                 return false;
 
             }
-
         }
     }
-
 
     public static synchronized void lockHouse() {
         locker.lock();

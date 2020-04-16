@@ -39,7 +39,6 @@ public class Thief extends Person {
 
             try
             {
-
                 System.out.println("People in house before thief enter: " + House.peopleInHouse.size());
                 House.peopleInHouse.add(this);
 
