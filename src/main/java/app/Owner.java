@@ -29,29 +29,21 @@ public class Owner extends Person {
 
         while(notEntering) {
 
-            //synchronized (House.locker) {
+            if (House.isHouseUnlocked()) {
 
-                //if (!House.locker.isLocked() /*&& House.noThievesInHouse()*/) {
-
-            //System.out.println(House.isHouseIsUnlocked());
-
-                if (House.isHouseIsUnlocked()) {
-
-                    addItemToHouse();
-                    notEntering = false;
-                }
-                else
-                {
-                    System.out.println("\nThread: " + Thread.currentThread().getId() + ", House is busy by Thief! Owner waiting!\n");
-                    Thread.sleep(500);
-                }
-            //}
+                addItemToHouse();
+                notEntering = false;
+            }
+            else
+            {
+                System.out.println("\nThread: " + Thread.currentThread().getId() + ", House is busy by Thief! Owner waiting!\n");
+                Thread.sleep(500);
+            }
         }
     }
 
     @SneakyThrows
     public void addItemToHouse() {
-        //synchronized (House.itemsInHouse) {
 
         House.peopleInHouse.add(this);
 
@@ -66,12 +58,7 @@ public class Owner extends Person {
 
         System.out.println("Owner added all item, total in house: " + House.itemsInHouse.size());
         House.peopleInHouse.remove(this);
-        //System.out.println("Owner leave! Owners in house: " + House.getPeopleInHouseAmount());
 
-        //synchronized (System.out) {
-            System.out.println("Owner leave! Owners in house: " + House.getPeopleInHouseAmount());
-        //}
-        //}
-        /**/
+        System.out.println("Owner leave! Owners in house: " + House.getPeopleInHouseAmount());
     }
 }

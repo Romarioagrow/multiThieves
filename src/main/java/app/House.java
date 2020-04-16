@@ -6,7 +6,6 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
-
 /*
 Нужно обеспечить условие чтобы хозяева могли выкладывать вещи одновременно, но при условии что в этот момент вор не ворует из дома.
 Выкладка вещей хозяином в цикле по одной а не addAll
@@ -25,22 +24,8 @@ public class House {
     public static volatile List<Person> peopleInHouse = Collections.synchronizedList(new ArrayList<>());
     public static volatile ReentrantLock locker = new ReentrantLock();
 
-    /*public static boolean noOneInHouse() {
 
-        //synchronized (locker) {
-
-            synchronized (peopleInHouse) {
-
-                synchronized (locker) {
-
-                    return !locker.isLocked() && peopleInHouse.isEmpty();
-                }
-            }
-        //}
-    }*/
-
-
-    public static synchronized boolean isHouseIsUnlocked() {
+    public static synchronized boolean isHouseUnlocked() {
         return !locker.isLocked();
     }
 
@@ -58,26 +43,16 @@ public class House {
 
                     System.out.println("No owners or other thieves!\nThief entering house! Thief Thread: " + Thread.currentThread().getId() + " Time of start: " + LocalTime.now());
 
-
                     return true;
-
                 }
 
                 return false;
 
-
             }
 
         }
-
-        //return !locker.isLocked() && peopleInHouse.isEmpty();
     }
 
-    /*public static synchronized boolean isNoThievesInHouse() {
-
-        return !locker.isLocked();
-
-    }*/
 
     public static synchronized void lockHouse() {
         locker.lock();
@@ -87,38 +62,6 @@ public class House {
     public static synchronized void unlockHouse() {
         locker.unlock();
     }
-
-
-
-
-
-    /*public static boolean noThievesInHouse() {
-        //try {
-
-            synchronized (peopleInHouse) {
-
-                //synchronized (locker) {
-
-                    if (peopleInHouse.isEmpty()) return true;
-
-                    for (Person person : peopleInHouse) {
-                        if (person.getClass().getName().equals("Thief")) return false;
-                    }
-                    return true;
-                //}
-            }
-
-        //}
-        *//*catch (ConcurrentModificationException e) {
-            e.printStackTrace();
-            return false;
-
-            *//**//*Thread.sleep(100);
-            return noThievesInHouse();*//**//*
-        }*//*
-    }*/
-
-
 
     public static int getPeopleInHouseAmount() {
         return peopleInHouse.size();

@@ -17,32 +17,13 @@ public class Thief extends Person {
     public void run() {
         boolean notEntering = true;
 
-
         while (notEntering) {
 
-            //synchronized (System.out) {
-
-
-            //System.out.println(House.isNobodyInHouse());
-
             if (House.isNobodyInHouse()) {
-
-                //synchronized (House.locker) {
-                //synchronized (House.locker) {
-                //House.locker.lock();
-
-                /*House.lockHouse();
-                System.out.println("\nThread: " + Thread.currentThread().getId() + ", House is locked by Thief");*/
 
                 stealItemFromHouse();
                 notEntering = false;
 
-                //House.locker.unlock();
-
-                /*House.unlockHouse();
-                System.out.println("Thread:" + Thread.currentThread().getId() + ", House is unlocked!");*/
-                //}
-                //}
             }
             else
             {
@@ -58,9 +39,6 @@ public class Thief extends Person {
 
             try
             {
-//                System.out.println("No owners or other thieves!\nThief entering house! Thief Thread: " + Thread.currentThread().getId() + " Time of start: " + LocalTime.now());
-
-                //House.lockHouse();
 
                 System.out.println("People in house before thief enter: " + House.peopleInHouse.size());
                 House.peopleInHouse.add(this);
@@ -86,13 +64,11 @@ public class Thief extends Person {
                 House.peopleInHouse.remove(this);
                 System.out.println("Thief LEAVE! Thief Thread: " + Thread.currentThread().getId() + " Time of end: " + LocalTime.now());
             }
-            finally {
+            finally
+            {
                 House.unlockHouse();
                 System.out.println("Thread:" + Thread.currentThread().getId() + ", House is unlocked!");
             }
-            /*House.locker.unlock();
-            System.out.println("House is unlocked!");*/
-            //Thread.sleep(100);
         }
     }
 
