@@ -41,11 +41,48 @@
 package app;
 import lombok.extern.java.Log;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
+
 @Log
 public class Main {
+
+    //public static volatile AtomicInteger i = new AtomicInteger();
+
+
+
     public static void main(String[] args) {
         House house = new House();
         new OwnersThread().start();
         new ThievesThread().start();
+
+
+
+
+        /*ExecutorService service = Executors.newCachedThreadPool();
+
+
+        for (int k = 0; k < 100; k++) {
+            synchronized (i) {
+
+                service.submit(() -> {
+
+                    i.getAndIncrement();
+
+                    //i = i + 1;
+                });
+           }
+        }
+
+        service.shutdown();
+        System.out.println(i);*/
+
+
+
+
+
+
+
     }
 }

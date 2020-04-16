@@ -20,36 +20,77 @@ import java.util.concurrent.locks.ReentrantLock;
 */
 @Data
 public class House {
-    public static List<Item> itemsInHouse = Collections.synchronizedList(new ArrayList<>());
-    public static List<Person> peopleInHouse = Collections.synchronizedList(new ArrayList<>());
-    public static ReentrantLock locker = new ReentrantLock();
+    public static volatile List<Item> itemsInHouse = Collections.synchronizedList(new ArrayList<>());
+    public static volatile List<Person> peopleInHouse = Collections.synchronizedList(new ArrayList<>());
+    public static volatile ReentrantLock locker = new ReentrantLock();
 
-    public static boolean noOneInHouse() {
-        return peopleInHouse.isEmpty();
-    }
+    /*public static boolean noOneInHouse() {
 
-    public static boolean noThievesInHouse() {
-        try {
+        //synchronized (locker) {
 
             synchronized (peopleInHouse) {
 
-                if (peopleInHouse.isEmpty()) return true;
+                synchronized (locker) {
 
-                for (Person person : peopleInHouse) {
-                    if (person.getClass().getName().equals("Thief")) return false;
+                    return !locker.isLocked() && peopleInHouse.isEmpty();
                 }
-                return true;
+            }
+        //}
+    }*/
+
+
+    public static synchronized boolean isHouseIsUnlocked() {
+        return !locker.isLocked();
+    }
+
+    public static synchronized boolean isNobodyInHouse() {
+        return !locker.isLocked() && peopleInHouse.isEmpty();
+    }
+
+    /*public static synchronized boolean isNoThievesInHouse() {
+
+        return !locker.isLocked();
+
+    }*/
+
+    public static synchronized void lockHouse() {
+        locker.lock();
+        System.out.println("\nThread: " + Thread.currentThread().getId() + ", House is locked by Thief");
+    }
+
+    public static synchronized void unlockHouse() {
+        locker.unlock();
+    }
+
+
+
+
+
+    /*public static boolean noThievesInHouse() {
+        //try {
+
+            synchronized (peopleInHouse) {
+
+                //synchronized (locker) {
+
+                    if (peopleInHouse.isEmpty()) return true;
+
+                    for (Person person : peopleInHouse) {
+                        if (person.getClass().getName().equals("Thief")) return false;
+                    }
+                    return true;
+                //}
             }
 
-        }
-        catch (ConcurrentModificationException e) {
+        //}
+        *//*catch (ConcurrentModificationException e) {
             e.printStackTrace();
             return false;
 
-            /*Thread.sleep(100);
-            return noThievesInHouse();*/
-        }
-    }
+            *//**//*Thread.sleep(100);
+            return noThievesInHouse();*//**//*
+        }*//*
+    }*/
 
 
 

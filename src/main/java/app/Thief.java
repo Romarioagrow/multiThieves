@@ -17,21 +17,37 @@ public class Thief extends Person {
     public void run() {
         boolean notEntering = true;
 
+
         while (notEntering) {
-            if (House.noOneInHouse()) {
-                House.locker.lock();
-                System.out.println("\nHouse is locked by Thief");
+
+            //synchronized (System.out) {
+
+
+            //System.out.println(House.isNobodyInHouse());
+
+            if (House.isNobodyInHouse()) {
+
+                //synchronized (House.locker) {
+                //synchronized (House.locker) {
+                //House.locker.lock();
+
+                /*House.lockHouse();
+                System.out.println("\nThread: " + Thread.currentThread().getId() + ", House is locked by Thief");*/
 
                 stealItemFromHouse();
                 notEntering = false;
 
-                House.locker.unlock();
-                System.out.println("House is unlocked!");
+                //House.locker.unlock();
+
+                /*House.unlockHouse();
+                System.out.println("Thread:" + Thread.currentThread().getId() + ", House is unlocked!");*/
+                //}
+                //}
             }
             else
             {
                 System.out.println("\nThread: " + Thread.currentThread().getId() + ", Thief see someone in house, waiting...\n");
-                Thread.sleep(500);
+                Thread.sleep(100);
             }
         }
     }
@@ -40,34 +56,40 @@ public class Thief extends Person {
     public void stealItemFromHouse() {
         synchronized (House.itemsInHouse) {
 
-            System.out.println("People in house before thief enter: " + House.peopleInHouse.size());
-            House.peopleInHouse.add(this);
-
-            /*House.locker.lock();
-            System.out.println("House is locked by Thief");*/
-
-            System.out.println("No owners or other thieves!\nThief stealing! Thief Thread: " + Thread.currentThread().getId() + " Time of start: " + LocalTime.now());
-
-            List<Item> itemsToSteal = House.itemsInHouse.stream().sorted(Comparator.comparingDouble(Item::getValue).reversed()).collect(Collectors.toList());//sort(Comparator.comparingDouble(Item::getValue).reversed());
-
-            if (!itemsToSteal.isEmpty())
+            try
             {
-                itemsToSteal.stream()
-                        .takeWhile(item -> this.getBagCurrentWeight() + item.getWeight() < this.getBagTotalWeight())
-                        .forEach(this::stealItem);
+                System.out.println("No owners or other thieves!\nThief entering house! Thief Thread: " + Thread.currentThread().getId() + " Time of start: " + LocalTime.now());
 
-                House.itemsInHouse.removeAll(getAllBagItems());
-                this.showStealProfit();
+                House.lockHouse();
+
+                System.out.println("People in house before thief enter: " + House.peopleInHouse.size());
+                House.peopleInHouse.add(this);
+
+
+                List<Item> itemsToSteal = House.itemsInHouse.stream().sorted(Comparator.comparingDouble(Item::getValue).reversed()).collect(Collectors.toList());//sort(Comparator.comparingDouble(Item::getValue).reversed());
+
+                if (!itemsToSteal.isEmpty())
+                {
+                    itemsToSteal.stream()
+                            .takeWhile(item -> this.getBagCurrentWeight() + item.getWeight() < this.getBagTotalWeight())
+                            .forEach(this::stealItem);
+
+                    House.itemsInHouse.removeAll(getAllBagItems());
+                    this.showStealProfit();
+                }
+                else
+                {
+                    System.out.println("Nothing to steal here... :(");
+                }
+                System.out.println("Items in house after stealing: " + House.itemsInHouse.size());
+
+                House.peopleInHouse.remove(this);
+                System.out.println("Thief LEAVE! Thief Thread: " + Thread.currentThread().getId() + " Time of end: " + LocalTime.now());
             }
-            else
-            {
-                System.out.println("Nothing to steal here... :(");
+            finally {
+                House.unlockHouse();
+                System.out.println("Thread:" + Thread.currentThread().getId() + ", House is unlocked!");
             }
-            System.out.println("Items in house after stealing: " + House.itemsInHouse.size());
-
-            House.peopleInHouse.remove(this);
-            System.out.println("Thief LEAVE! Thief Thread: " + Thread.currentThread().getId() + " Time of end: " + LocalTime.now());
-
             /*House.locker.unlock();
             System.out.println("House is unlocked!");*/
             //Thread.sleep(100);
